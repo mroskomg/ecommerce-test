@@ -7,41 +7,44 @@ import CustomButton from "../custom-button/custom-button.component";
 import CartItem from "../cart-item/cart-item.component";
 import {
   selectCartItems,
-  selectCartTotal
+  selectCartTotal,
 } from "../../redux/cart/cart.selectors";
 import { setCartVisibility } from "../../redux/cart/cart-actions";
 
 import "./cart-dropdown.styles.scss";
+import {
+  CartDropDownContainer,
+  CartItemsContainer,
+  EmptyMessage,
+  CartTotal,
+} from "./cart-dropdown.styles";
 
 const CartDropdown = ({ cartItems, history, totalPrice, dispatch }) => (
-  <div className="cart-dropdown">
-    <div className="cart-items">
+  <CartDropDownContainer>
+    <CartItemsContainer>
       {cartItems.length ? (
         cartItems.map(cartItem => (
           <CartItem key={cartItem.id} item={cartItem} />
         ))
       ) : (
-        <span className="empty-message">Your cart is empty</span>
+        <EmptyMessage>Your cart is empty</EmptyMessage>
       )}
-      {cartItems.length ? (
-        <span className="cart-total">TOTAL: ${totalPrice}</span>
-      ) : null}
-    </div>
+      {cartItems.length ? <CartTotal>TOTAL: ${totalPrice}</CartTotal> : null}
+    </CartItemsContainer>
 
     <CustomButton
       onClick={() => {
         history.push("/checkout");
         dispatch(setCartVisibility());
-      }}
-    >
+      }}>
       GO TO CHECKOUT
     </CustomButton>
-  </div>
+  </CartDropDownContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
   cartItems: selectCartItems,
-  totalPrice: selectCartTotal
+  totalPrice: selectCartTotal,
 });
 
 export default withRouter(connect(mapStateToProps)(CartDropdown));
