@@ -7,7 +7,6 @@ import {
   removeItemFromCart,
 } from "../../redux/cart/cart-actions";
 
-import "./cart-item.styles.scss";
 import {
   CartItemContainer,
   ItemDetailsContainer,
